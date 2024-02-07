@@ -22,6 +22,9 @@ class SingleOtpInput extends Component<SingleOtpInputProps> {
   private inputRef: React.RefObject<TextInput> = React.createRef();
 
   componentDidUpdate(prevProps: SingleOtpInputProps) {
+    if (this.props.focused && !prevProps.focused) {
+      this.inputRef.current?.focus();
+    }
     if (this.props.value !== prevProps.value && this.inputRef.current) {
       this.inputRef.current.setNativeProps({ text: this.props.value });
     }

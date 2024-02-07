@@ -1,6 +1,6 @@
 {
   "name": "react-native-input-otp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A fully customizable, one-time password (OTP) input component for smartphones built with React Native.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
