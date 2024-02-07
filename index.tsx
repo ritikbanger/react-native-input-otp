@@ -101,7 +101,7 @@ class OtpInput extends Component<OtpInputProps, OtpInputState> {
     newOtp[index] = text;
     this.setState({ otp: newOtp }, () => {
       this.props.onChange(newOtp.join(''));
-      if (index < this.props.numInputs - 1) {
+      if (text && index < this.props.numInputs - 1) {
         this.focusInput(index + 1);
       }
     });
@@ -112,8 +112,19 @@ class OtpInput extends Component<OtpInputProps, OtpInputState> {
   };
 
   handleBackspace = (index: number) => {
-    if (this.state.otp[index] === '' && index > 0) {
-      this.focusInput(index - 1);
+    const { otp } = this.state;
+    if (otp[index] === '' && index > 0) {
+      const newOtp = [...otp];
+      newOtp[index - 1] = '';
+      this.setState({ otp: newOtp, focusedInput: index - 1 });
+    } else {
+      const newOtp = [...otp];
+      newOtp[index] = '';
+      this.setState({ otp: newOtp }, () => {
+        if (index > 0) {
+          this.focusInput(index - 1);
+        }
+      });
     }
   };
 
