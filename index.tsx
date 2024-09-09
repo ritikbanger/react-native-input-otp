@@ -14,6 +14,7 @@ interface SingleOtpInputProps extends TextInputProps {
   onInputChange: (index: number, text: string) => void;
   onInputFocus: (index: number) => void;
   onBackspace: (index: number) => void;
+  onUserFocus?: (index: number) => void; // Custom user onFocus event
   inputStyle?: TextStyle;
   focused?: boolean;
 }
@@ -43,8 +44,7 @@ class SingleOtpInput extends Component<SingleOtpInputProps> {
   };
 
   render() {
-    const { style, onInputFocus, index, inputStyle, focused, ...rest } =
-      this.props;
+    const { style, onInputFocus, onUserFocus, index, inputStyle, focused, ...rest } = this.props;
     const combinedStyle = StyleSheet.flatten([
       styles.input,
       inputStyle,
@@ -58,7 +58,12 @@ class SingleOtpInput extends Component<SingleOtpInputProps> {
         style={combinedStyle}
         onChangeText={this.handleTextChange}
         onKeyPress={this.handleKeyPress}
-        onFocus={() => onInputFocus(index)}
+        onFocus={() => {
+          onInputFocus(index);
+          if (onUserFocus) {
+            onUserFocus(index); // Triggering the custom user onFocus event
+          }
+        }}
         {...rest}
       />
     );
@@ -74,6 +79,7 @@ interface OtpInputProps {
   value?: string;
   containerStyle?: ViewStyle;
   inputStyle?: TextStyle;
+  onUserFocus?: (index: number) => void; // Custom user onFocus event
 }
 
 interface OtpInputState {
@@ -132,8 +138,7 @@ class OtpInput extends Component<OtpInputProps, OtpInputState> {
   };
 
   renderInputs = () => {
-    const { numInputs, isDisabled, inputStyle, autoFocus, keyboardType } =
-      this.props;
+    const { numInputs, isDisabled, inputStyle, autoFocus, keyboardType, onUserFocus } = this.props;
     const { otp, focusedInput } = this.state;
 
     return Array.from({ length: numInputs }, (_, i) => (
@@ -143,6 +148,7 @@ class OtpInput extends Component<OtpInputProps, OtpInputState> {
         value={otp[i]}
         onInputChange={this.handleInputChange}
         onInputFocus={this.focusInput}
+        onUserFocus={onUserFocus}
         onBackspace={this.handleBackspace}
         editable={!isDisabled}
         autoFocus={autoFocus && i === 0}

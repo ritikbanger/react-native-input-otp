@@ -71,6 +71,12 @@ The `OtpInput` component accepts several props to customize its behavior and sty
     <td>Custom styles for each input box.</td>
     <td>-</td>
   </tr>
+   <tr>
+    <td><code>onUserFocus</code></td>
+    <td><code>Function</code></td>
+    <td>Triggered onFocus for user end</td>
+    <td>-</td>
+  </tr>
 </table>
 
 ## Customization
